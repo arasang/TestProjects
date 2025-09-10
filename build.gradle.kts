@@ -5,7 +5,10 @@ plugins {
     id("org.springframework.boot") version "3.5.5"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("plugin.jpa") version "1.9.25"
+    kotlin("kapt") version "1.9.24"
 }
+
+
 
 group = "park.sangeun"
 version = "0.0.1-SNAPSHOT"
@@ -36,6 +39,11 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
     // jasypt
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
+    // annotation
+    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+    // Querydsl (jakarta 버전)
+    implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
 }
 
 kotlin {
@@ -52,4 +60,17 @@ allOpen {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+kapt {
+    arguments {
+        arg("querydsl.entityAccessors", "true")
+        arg("querydsl.createDefaultVariable", "true")
+    }
+}
+
+kotlin {
+    sourceSets.main {
+        kotlin.srcDir("build/generated/source/kapt/main")
+    }
 }

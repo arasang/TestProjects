@@ -8,3 +8,7 @@ spring:
     username: separk
     password: ENC(Tw19tHgeFiB+vQiuFzuY2Asz5fuYVmTH)
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
